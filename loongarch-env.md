@@ -3,7 +3,7 @@
 ### 0.下载并解压文件
 
 ```bash
-mkdir ~/.loongarch && cd ~/.loongarch
+mkdir -p ~/.loongarch && cd ~/.loongarch
 
 wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/CLFS-loongarch64-8.1-x86_64-cross-tools-gcc-glibc.tar.xz && tar -xvJf CLFS-loongarch64-8.1-x86_64-cross-tools-gcc-glibc.tar.xz
 wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/qemu-loongarch64 && chmod +x qemu-loongarch64
