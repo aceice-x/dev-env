@@ -63,7 +63,7 @@ linker = "loongarch64-unknown-linux-gnu-gcc"
 runner = "qemu-loongarch64"
 ```
 
-###  3.修改  bashrc
+###  3.修改 ~/.bashrc
 ```
 loongarch.env(){
     export LOONGARCH_HOME=$HOME/.loongarch
