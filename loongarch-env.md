@@ -105,6 +105,7 @@ loongarch.cargo(){
 	RANLIB_loongarch64_unknown_linux_gnu=$LOONGARCH_TOOLS_DIR/bin/loongarch64-unknown-linux-gnu-gcc-ranlib \
 	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNUN_LINKER=$LOONGARCH_TOOLS_DIR/bin/loongarch64-unknown-linux-gnu-gcc \
 	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNUN_RUNNER="qemu-loongarch64" \
+	CARGO_BUILD_TARGET=loongarch64-unknown-linux-gnu \
 	cargo  $@
 }
 ```
