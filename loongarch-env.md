@@ -91,6 +91,21 @@ loongarch.env(){
     echo LD_LIBRARY_PATH=$LD_LIBRARY_PATH
     echo LOONGARCH_HOME=$LOONGARCH_HOME   
 }
+
+loongarch.cargo(){
+	if [ -z `which loongarch64-unknown-linux-gnu-gcc` ] 
+	then
+		loongarch.env
+	fi
+	
+	CC_loongarch64_unknown_linux_gnu=$LOONGARCH_TOOLS_DIR/bin/loongarch64-unknown-linux-gnu-gcc \
+	CXX_loongarch64_unknown_linux_gnu=$LOONGARCH_TOOLS_DIR/bin/loongarch64-unknown-linux-gnu-g++ \
+	AR_loongarch64_unknown_linux_gnu=$LOONGARCH_TOOLS_DIR/bin/loongarch64-unknown-linux-gnu-gcc-ar \
+	RANLIB_loongarch64_unknown_linux_gnu=$LOONGARCH_TOOLS_DIR/bin/loongarch64-unknown-linux-gnu-gcc-ranlib \
+	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNUN_LINKER=$LOONGARCH_TOOLS_DIR/bin/loongarch64-unknown-linux-gnu-gcc \
+	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNUN_RUNNER="qemu-loongarch64" \
+	cargo  $@
+}
 ```
 
 ### 4.测试
