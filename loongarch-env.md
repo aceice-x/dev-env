@@ -82,14 +82,16 @@ loongarch.env(){
     fi
 
     export DISPLAY=:0
-    
+
+    echo ""
     echo "##############info##################"
     which loongarch64-unknown-linux-gnu-gcc
     which qemu-loongarch64
     echo LOONGARCH_SYSTEM_SYSROOT=$LOONGARCH_SYSTEM_SYSROOT
     echo QEMU_LD_PREFIX=$QEMU_LD_PREFIX
     echo LD_LIBRARY_PATH=$LD_LIBRARY_PATH
-    echo LOONGARCH_HOME=$LOONGARCH_HOME   
+    echo LOONGARCH_HOME=$LOONGARCH_HOME
+    echo ""   
 }
 
 loongarch.cargo(){
@@ -103,8 +105,8 @@ loongarch.cargo(){
 	CXX_loongarch64_unknown_linux_gnu=$LOONGARCH_TOOLS_DIR/bin/loongarch64-unknown-linux-gnu-g++ \
 	AR_loongarch64_unknown_linux_gnu=$LOONGARCH_TOOLS_DIR/bin/loongarch64-unknown-linux-gnu-gcc-ar \
 	RANLIB_loongarch64_unknown_linux_gnu=$LOONGARCH_TOOLS_DIR/bin/loongarch64-unknown-linux-gnu-gcc-ranlib \
-	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNUN_LINKER=$LOONGARCH_TOOLS_DIR/bin/loongarch64-unknown-linux-gnu-gcc \
-	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNUN_RUNNER="qemu-loongarch64" \
+	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNU_LINKER=$LOONGARCH_TOOLS_DIR/bin/loongarch64-unknown-linux-gnu-gcc \
+	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNU_RUNNER="$LOONGARCH_HOME/qemu-loongarch64" \
 	CARGO_BUILD_TARGET=loongarch64-unknown-linux-gnu \
 	cargo  $@
 }
