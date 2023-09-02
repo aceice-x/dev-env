@@ -97,7 +97,8 @@ loongarch.cargo(){
 	then
 		loongarch.env
 	fi
-	
+
+	cargo update
 	CC_loongarch64_unknown_linux_gnu=$LOONGARCH_TOOLS_DIR/bin/loongarch64-unknown-linux-gnu-gcc \
 	CXX_loongarch64_unknown_linux_gnu=$LOONGARCH_TOOLS_DIR/bin/loongarch64-unknown-linux-gnu-g++ \
 	AR_loongarch64_unknown_linux_gnu=$LOONGARCH_TOOLS_DIR/bin/loongarch64-unknown-linux-gnu-gcc-ar \
@@ -121,6 +122,7 @@ source ~/.bashrc
 loongarch.env
 git clone --depth=1 https://github.com/extrawurst/gitui
 cd gitui
+cargo update
 cargo run --release --target loongarch64-unknown-linux-gnu
 ```
 
