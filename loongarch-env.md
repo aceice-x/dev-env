@@ -58,7 +58,6 @@ rustup target add loongarch64-unknown-linux-gnu
 ### 2. 修改 ~/.cargo/config.toml
 ```
 [target.loongarch64-unknown-linux-gnu]
-ar = "loongarch64-unknown-linux-gnu-ar"
 linker = "loongarch64-unknown-linux-gnu-gcc"
 runner = "qemu-loongarch64"
 ```
@@ -91,6 +90,7 @@ loongarch.env(){
     echo QEMU_LD_PREFIX=$QEMU_LD_PREFIX
     echo LD_LIBRARY_PATH=$LD_LIBRARY_PATH
     echo LOONGARCH_HOME=$LOONGARCH_HOME
+    echo "####################################"
     echo ""   
 }
 
@@ -99,16 +99,12 @@ loongarch.cargo(){
 	then
 		loongarch.env
 	fi
-
+	
 	cargo update
-	CC_loongarch64_unknown_linux_gnu=$LOONGARCH_TOOLS_DIR/bin/loongarch64-unknown-linux-gnu-gcc \
-	CXX_loongarch64_unknown_linux_gnu=$LOONGARCH_TOOLS_DIR/bin/loongarch64-unknown-linux-gnu-g++ \
-	AR_loongarch64_unknown_linux_gnu=$LOONGARCH_TOOLS_DIR/bin/loongarch64-unknown-linux-gnu-gcc-ar \
-	RANLIB_loongarch64_unknown_linux_gnu=$LOONGARCH_TOOLS_DIR/bin/loongarch64-unknown-linux-gnu-gcc-ranlib \
-	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNU_LINKER=$LOONGARCH_TOOLS_DIR/bin/loongarch64-unknown-linux-gnu-gcc \
-	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNU_RUNNER="$LOONGARCH_HOME/qemu-loongarch64" \
-	CARGO_BUILD_TARGET=loongarch64-unknown-linux-gnu \
-	cargo  $@
+
+	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNU_LINKER="loongarch64-unknown-linux-gnu-gcc" \
+	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNU_RUNNER="qemu-loongarch64" \
+	CARGO_BUILD_TARGET="loongarch64-unknown-linux-gnu" cargo $@
 }
 ```
 
