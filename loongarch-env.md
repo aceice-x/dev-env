@@ -180,7 +180,7 @@ rustup target add loongarch64-unknown-linux-gnu
 ```bash
 loongarch.cargo-sysroot(){
 	export LOONGARCH_HOME=~/.loongarch
-	export PATH=$LOONGARCH_HOME/llvm-18git/clang/bin:$LOONGARCH_HOME/llvm-18git/lld/bin:$LOONGARCH_HOME/llvm-18git/llvm/bin:$LOONGARCH_HOME/qemu:$PATH
+	export PATH=$LOONGARCH_HOME/llvm-18git/clang/bin:$LOONGARCH_HOME/llvm-18git/lld/bin:$LOONGARCH_HOME/llvm-18git/llvm/bin:$LOONGARCH_HOME:$PATH
 	
 	CC_loongarch64_unknown_linux_gnu="$LOONGARCH_HOME/llvm-18git/clang/bin/clang-18" \
 	CFLAGS_loongarch64_unknown_linux_gnu="--sysroot=$LOONGARCH_HOME/squashfs-root" \
@@ -189,7 +189,7 @@ loongarch.cargo-sysroot(){
 	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNU_LINKER="$LOONGARCH_HOME/llvm-18git/clang/bin/clang-18" \
 	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNU_AR="$LOONGARCH_HOME/llvm-18git/llvm/bin/llvm-ar" \
 	QEMU_LD_PREFIX=$LOONGARCH_HOME/squashfs-root \
-	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNU_RUNNER="$LOONGARCH_HOME/qemu/qemu-loongarch64" \
+	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNU_RUNNER="$LOONGARCH_HOME/qemu-loongarch64" \
 	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNU_RUSTFLAGS="-C link-arg=-fuse-ld=lld -C link-arg=--target=loongarch64-unknown-linux-gnu -C link-args=--sysroot=$LOONGARCH_HOME/squashfs-root -C target-feature=+crt-static" \
 	CARGO_BUILD_TARGET="loongarch64-unknown-linux-gnu" cargo  $@
 	 
