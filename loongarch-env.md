@@ -127,7 +127,7 @@ cargo run --release --target loongarch64-unknown-linux-gnu
 
 ---
 # 使用 llvm clang lld  rust1.72 clfs-loongarch64-system-8.1-sysroot.squashfs 编译loongarch64
-### Getting the Source Code and Building LLVM
+### 0. 编译llvm core  , clang , lld
 
 > ```bash
 > mkdir -p ~/.loongarch/llvm
@@ -161,7 +161,22 @@ cargo run --release --target loongarch64-unknown-linux-gnu
 > 
 > ```
 
-### 修改.bashrc
+### 1.下载qemu-loonarch64 和 sysroot
+```bash
+mkdir -p ~/.loongarch && cd ~/.loongarch
+wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/qemu-loongarch64 && chmod +x qemu-loongarch64
+wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/clfs-loongarch64-system-8.1-sysroot.squashfs && unsquashfs -user-xattrs clfs-system-8.1-sysroot.loongarch64.squashfs 
+```
+
+### 2. rust 1.72 添加 target loongarch64-unknown-linux-gnu
+
+```bash
+rustup self update
+rustup update stable
+rustup target add loongarch64-unknown-linux-gnu
+```
+
+### 3. 修改.bashrc
 ```bash
 loongarch.cargo-sysroot(){
 	export LOONGARCH_HOME=~/.loongarch
@@ -179,4 +194,22 @@ loongarch.cargo-sysroot(){
 	CARGO_BUILD_TARGET="loongarch64-unknown-linux-gnu" cargo  $@
 	 
 }
+```
+
+### 4.测试
+``` 
+source ~/.bashrc				
+cargo new hello && cd hello
+loongarch.cargo-sysroot run 
+```
+
+``` 
+source ~/.bashrc				
+git clone --depth=1 https://github.com/extrawurst/gitui
+cd gitui
+cargo update
+loongarch.cargo-sysroot build
+
+file target/loongarch64-unknown-linux-gnu/debug/gitui
+target/loongarch64-unknown-linux-gnu/debug/gitui: ELF 64-bit LSB executable, LoongArch, version 1 (SYSV), statically linked, for GNU/Linux 5.19.0, with debug_info, not stripped
 ```
