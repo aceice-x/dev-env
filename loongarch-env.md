@@ -125,4 +125,58 @@ cargo update
 cargo run --release --target loongarch64-unknown-linux-gnu
 ```
 
+---
+# 使用 llvm clang lld  rust1.72 clfs-loongarch64-system-8.1-sysroot.squashfs 编译loongarch64
+### Getting the Source Code and Building LLVM
 
+> ```bash
+> mkdir -p ~/.loongarch/llvm
+> 
+> mkdir -p ~/.loongarch/llvm/build/llvm
+> mkdir -p ~/.loongarch/llvm/install/llvm
+> 
+> mkdir -p ~/.loongarch/llvm/build/clang
+> mkdir -p ~/.loongarch/llvm/install/clang
+> 
+> mkdir -p ~/.loongarch/llvm/build/lld
+> mkdir -p ~/.loongarch/llvm/install/lld
+> 
+> cd ~/.loongarch/llvm
+> 
+> git clone --depth 1 https://github.com/llvm/llvm-project.git
+> 
+> #build llvm
+> cmake -G Ninja -S ~/.loongarch/llvm/llvm-project/llvm -B ~/.loongarch/llvm/build/llvm -DLLVM_INSTALL_UTILS=ON -DCMAKE_INSTALL_PREFIX=~/.loongarch/llvm/install/llvm -DCMAKE_BUILD_TYPE=Release
+> ninja -C ~/.loongarch/llvm/build/llvm install
+> 
+> #build clang
+> cmake -G Ninja -S ~/.loongarch/llvm/llvm-project/clang -B ~/.loongarch/llvm/build/clang -DLLVM_EXTERNAL_LIT=~/.loongarch/llvm/build/llvm/utils/lit -DLLVM_ROOT=~/.loongarch/llvm/install/llvm -DCMAKE_INSTALL_PREFIX=~/.loongarch/llvm/install/clang -DCMAKE_BUILD_TYPE=Release
+> ninja -C ~/.llvm_dev/build/clang install
+> 
+> #build lld
+> cmake -G Ninja -S ~/.loongarch/llvm/llvm-project/lld -B ~/.loongarch/llvm/build/lld -DLLVM_EXTERNAL_LIT=~/.loongarch/llvm/build/llvm/utils/lit -DLLVM_ROOT=~/.loongarch/llvm/install/llvm -DCMAKE_INSTALL_PREFIX=~/.loongarch/llvm/install/lld -DCMAKE_BUILD_TYPE=Release
+> ninja -C ~/.loongarch/llvm/build/lld install
+>
+>  cd ~/.loongarch && ln -s llvm/install llvm-18git
+> 
+> ```
+
+### 修改.bashrc
+```bash
+loongarch.cargo-sysroot(){
+	export LOONGARCH_HOME=~/.loongarch
+	export PATH=$LOONGARCH_HOME/llvm-18git/clang/bin:$LOONGARCH_HOME/llvm-18git/lld/bin:$LOONGARCH_HOME/llvm-18git/llvm/bin:$LOONGARCH_HOME/qemu:$PATH
+	
+	CC_loongarch64_unknown_linux_gnu="$LOONGARCH_HOME/llvm-18git/clang/bin/clang-18" \
+	CFLAGS_loongarch64_unknown_linux_gnu="--sysroot=$LOONGARCH_HOME/squashfs-root" \
+	AR_loongarch64_unknown_linux_gnu="$LOONGARCH_HOME/llvm-18git/llvm/bin/llvm-ar" \
+	RANLIB_loongarch64_unknown_linux_gnu="$LOONGARCH_HOME/llvm-18git/llvm/bin/llvm-ranlib" \
+	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNU_LINKER="$LOONGARCH_HOME/llvm-18git/clang/bin/clang-18" \
+	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNU_AR="$LOONGARCH_HOME/llvm-18git/llvm/bin/llvm-ar" \
+	QEMU_LD_PREFIX=$LOONGARCH_HOME/squashfs-root \
+	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNU_RUNNER="$LOONGARCH_HOME/qemu/qemu-loongarch64" \
+	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNU_RUSTFLAGS="-C link-arg=-fuse-ld=lld -C link-arg=--target=loongarch64-unknown-linux-gnu -C link-args=--sysroot=$LOONGARCH_HOME/squashfs-root -C target-feature=+crt-static" \
+	CARGO_BUILD_TARGET="loongarch64-unknown-linux-gnu" cargo  $@
+	 
+}
+```
