@@ -126,7 +126,7 @@ cargo run --release --target loongarch64-unknown-linux-gnu
 ```
 
 ---
-# 使用 llvm clang lld  rust1.72 clfs-loongarch64-system-8.1-sysroot.squashfs 编译loongarch64
+# 使用x86_64(llvm clang lld  rust1.72 qemu-loongarch64) 和 clfs-loongarch64-system-8.1-sysroot.squashfs 交叉编译loongarch64
 ### 0. 编译llvm core  , clang , lld
 
 > ```bash
@@ -167,6 +167,8 @@ mkdir -p ~/.loongarch && cd ~/.loongarch
 wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/qemu-loongarch64 && chmod +x qemu-loongarch64
 wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/clfs-loongarch64-system-8.1-sysroot.squashfs && unsquashfs -user-xattrs clfs-system-8.1-sysroot.loongarch64.squashfs 
 ```
+#多架构的小sysroot
+#https://github.com/crosstool-ng/crosstool-ng
 
 ### 2. rust 1.72 添加 target loongarch64-unknown-linux-gnu
 
@@ -194,16 +196,59 @@ loongarch.cargo-sysroot(){
 	CARGO_BUILD_TARGET="loongarch64-unknown-linux-gnu" cargo  $@
 	 
 }
+
+
+loongarch.cargo-optimized-sysroot(){
+	export LOONGARCH_HOME=~/.loongarch
+	export LOONGARCH_SYSROOT=$LOONGARCH_HOME/squashfs-root
+	export QEMU_LD_PREFIX=$LOONGARCH_SYSROOT
+	export PATH=$LOONGARCH_HOME/llvm-18git/clang/bin:$LOONGARCH_HOME/llvm-18git/lld/bin:$LOONGARCH_HOME/llvm-18git/llvm/bin:$LOONGARCH_HOME:$PATH
+	
+	runner="qemu-loongarch64"
+	cflags="--sysroot=$LOONGARCH_SYSROOT"
+	
+	#性能优化参考: https://github.com/nnethercote/perf-book/blob/master/src/SUMMARY.md
+	#profdata文件生成: 参考https://doc.rust-lang.org/rustc/profile-guided-optimization.html
+	#profdata=
+	#profile_guided_optimizion="-C llvm-args=-pgo-warn-missing-function -C profile-use=$profdata"
+	
+	#提示panic=abort出错时注释该行
+	panic="-C panic=abort"
+	optimized_level="-C opt-level=3"
+	#optimizied_linker_plugin_lto="-C linker-plugin-lto -C linker=clang"
+	optimizied_lto="-C lto=fat -C embed-bitcode=yes $optimizied_linker_plugin_lto"
+	optimized_speed="-C codegen-units=1 $panic $optimizied_lto $optimized_level"
+	
+	optimized_size="-C strip=symbols"
+	
+	optimized_linking_times="-C link-arg=-fuse-ld=lld -C link-arg=--target=loongarch64-unknown-linux-gnu -C link-arg=--sysroot=$LOONGARCH_SYSROOT"
+	
+	#参考Target feature database for the Rust compiler: https://github.com/calebzulawski/target-features/blob/master/target-features/target-cpus.txt
+	target_feature="-C target-feature=+crt-static"	
+	
+	rustflags="$optimized_linking_times $optimized_speed $optimized_size $target_feature $profile_guided_optimizion"
+	
+	CC_loongarch64_unknown_linux_gnu="clang" \
+	CFLAGS_loongarch64_unknown_linux_gnu="$cflags" \
+	AR_loongarch64_unknown_linux_gnu="llvm-ar" \
+	RANLIB_loongarch64_unknown_linux_gnu="llvm-ranlib" \
+	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNU_LINKER="clang" \
+	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNU_AR="llvm-ar" \
+	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNU_RUNNER="$runner" \
+	CARGO_TARGET_LOONGARCH64_UNKNOWN_LINUX_GNU_RUSTFLAGS="$rustflags" \
+	CARGO_BUILD_TARGET="loongarch64-unknown-linux-gnu" cargo  $@	 
+}
+
 ```
 
 ### 4.测试
-``` 
+``` bash
 source ~/.bashrc				
 cargo new hello && cd hello
 loongarch.cargo-sysroot run 
 ```
 
-``` 
+``` bash
 source ~/.bashrc				
 git clone --depth=1 https://github.com/extrawurst/gitui
 cd gitui
@@ -212,4 +257,99 @@ loongarch.cargo-sysroot build
 
 file target/loongarch64-unknown-linux-gnu/debug/gitui
 target/loongarch64-unknown-linux-gnu/debug/gitui: ELF 64-bit LSB executable, LoongArch, version 1 (SYSV), statically linked, for GNU/Linux 5.19.0, with debug_info, not stripped
+```
+
+```bash
+source ~/.bashrc
+git clone --depth=1 https://github.com/uutils/coreutils
+cd coreutils
+cargo update
+loongarch.cargo-optimized-sysroot build --release --features unix
+
+file target/loongarch64-unknown-linux-gnu/release/coreutils
+target/loongarch64-unknown-linux-gnu/release/coreutils: ELF 64-bit LSB executable, LoongArch, version 1 (SYSV), statically linked, for GNU/Linux 5.19.0, stripped
+
+du -h target/loongarch64-unknown-linux-gnu/release/coreutils
+13M	target/loongarch64-unknown-linux-gnu/release/coreutils
+
+qemu-loongarch64 target/loongarch64-unknown-linux-gnu/release/coreutils -h
+coreutils 0.0.21 (multi-call binary)
+
+Usage: coreutils [function [arguments...]]
+
+Currently defined functions:
+
+    [, arch, b2sum, b3sum, base32, base64, basename, basenc, cat, chgrp, chmod, chown, chroot,
+    cksum, comm, cp, csplit, cut, date, dd, df, dir, dircolors, dirname, du, echo, env, expand,
+    expr, factor, false, fmt, fold, groups, hashsum, head, hostid, hostname, id, install, join,
+    kill, link, ln, logname, ls, md5sum, mkdir, mkfifo, mknod, mktemp, more, mv, nice, nl,
+    nohup, nproc, numfmt, od, paste, pathchk, pinky, pr, printenv, printf, ptx, pwd, readlink,
+    realpath, relpath, rm, rmdir, seq, sha1sum, sha224sum, sha256sum, sha3-224sum, sha3-256sum,
+    sha3-384sum, sha3-512sum, sha384sum, sha3sum, sha512sum, shake128sum, shake256sum, shred,
+    shuf, sleep, sort, split, stat, stdbuf, stty, sum, sync, tac, tail, tee, test, timeout,
+    touch, tr, true, truncate, tsort, tty, uname, unexpand, uniq, unlink, uptime, users, vdir,
+    wc, who, whoami, yes
+
+```
+---
+
+# chroot into  clfs-loongarch64-system-8.1-sysroot.squashfs
+### 0.下载qemu-loonarch64 和 sysroot
+```bash
+mkdir -p ~/.loongarch && cd ~/.loongarch
+wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/qemu-loongarch64 && chmod +x qemu-loongarch64
+wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/clfs-loongarch64-system-8.1-sysroot.squashfs && unsquashfs -user-xattrs clfs-system-8.1-sysroot.loongarch64.squashfs 
+```
+### 1.chroot 环境准备
+```bash
+#存在register status
+ls /proc/sys/fs/binfmt_misc
+register status
+
+#status 为enabled
+cat /proc/sys/fs/binfmt_misc/status
+enabled
+
+#是否存在qemu-loongarch64规则,不存在则使用check_binfmt_misc_for_qemu_loongarch64生成创建命令并执行
+ls /proc/sys/fs/binfmt_misc
+register status qemu-loongarch64
+
+#1为启用,0为禁用,-1为删除qemu-loongarch64规则
+#sudo bash -c 'echo -1 > /proc/sys/fs/binfmt_misc/qemu-loongarch64'
+
+#复制qemu-loongarch64到sysroot,确保qemu-loongarch64在PATH=~/.loongarch:$PATH
+cp  `which qemu-loongarch64` ~/.loongarch/squashfs-root`which qemu-loongarch64`
+```
+```bash
+check_binfmt_misc_for_qemu_loongarch64(){
+	PATH=~/.loongarch:$PATH
+	qemu_file_name="qemu-loongarch64"
+	if [ `which $qemu_file_name` ];then	
+		qemu_match=":${qemu_file_name}:M::\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x02\x01:\xff\xff\xff\xff\xff\xfe\xfe\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff:`which $qemu_file_name`:"
+		echo "使用以下命令生成的binfmt_misc匹配规则"
+		echo -n "sudo bash -c "
+		echo -n "'" 
+		echo -n "echo " 
+		echo -n '"'
+		echo -n ${qemu_match}
+		echo -n '"'
+		echo -n ' > '
+		echo -n '/proc/sys/fs/binfmt_misc/register'
+		echo "'"
+	else
+		echo "$qemu_file_name not found"
+	fi
+}
+```
+### 2. chroot 
+```bash
+sudo chroot ~/.loongarch/squashfs-root
+mount -t proc proc /proc
+mount -t sysfs sys /sys
+mount -t devtmpfs dev /dev
+mount -t devpts devpts /dev/pts
+useradd -m larch
+su larch
+cd ~ && uname -m
+loongarch64
 ```
