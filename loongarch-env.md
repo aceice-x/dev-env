@@ -3,12 +3,12 @@
 ### 0.下载并解压文件
 
 ```bash
-mkdir -p ~/.loongarch && cd ~/.loongarch
+$ mkdir -p ~/.loongarch && cd ~/.loongarch
 
-wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/CLFS-loongarch64-8.1-x86_64-cross-tools-gcc-glibc.tar.xz && tar -xvJf CLFS-loongarch64-8.1-x86_64-cross-tools-gcc-glibc.tar.xz
-wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/qemu-loongarch64 && chmod +x qemu-loongarch64
+$ wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/CLFS-loongarch64-8.1-x86_64-cross-tools-gcc-glibc.tar.xz && tar -xvJf CLFS-loongarch64-8.1-x86_64-cross-tools-gcc-glibc.tar.xz
+$ wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/qemu-loongarch64 && chmod +x qemu-loongarch64
 # 可选下载,运行时可能缺少动态库
-wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/clfs-loongarch64-system-8.1-sysroot.squashfs && unsquashfs -user-xattrs clfs-system-8.1-sysroot.loongarch64.squashfs 
+$ wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/clfs-loongarch64-system-8.1-sysroot.squashfs && unsquashfs -user-xattrs clfs-system-8.1-sysroot.loongarch64.squashfs 
 ```
 
 ```			 	
@@ -50,9 +50,9 @@ wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/clf
 ### 1. rust 1.72 添加 target loongarch64-unknown-linux-gnu
 
 ```bash
-rustup self update
-rustup update stable
-rustup target add loongarch64-unknown-linux-gnu
+$ rustup self update
+$ rustup update stable
+$ rustup target add loongarch64-unknown-linux-gnu
 ```
 
 ### 2. 修改 ~/.cargo/config.toml
@@ -109,20 +109,20 @@ loongarch.cargo(){
 ```
 
 ### 4.测试
-``` 
-source ~/.bashrc				
-loongarch.env
-cargo new hello && cd hello
-cargo run --target loongarch64-unknown-linux-gnu
+```bash 
+$ source ~/.bashrc				
+$ loongarch.env
+$ cargo new hello && cd hello
+$ cargo run --target loongarch64-unknown-linux-gnu
 ```
 
-``` 
-source ~/.bashrc				
-loongarch.env
-git clone --depth=1 https://github.com/extrawurst/gitui
-cd gitui
-cargo update
-cargo run --release --target loongarch64-unknown-linux-gnu
+```bash 
+$ source ~/.bashrc				
+$ loongarch.env
+$ git clone --depth=1 https://github.com/extrawurst/gitui
+$ cd gitui
+$ cargo update
+$ cargo run --release --target loongarch64-unknown-linux-gnu
 ```
 
 ---
@@ -130,52 +130,54 @@ cargo run --release --target loongarch64-unknown-linux-gnu
 ### 0. 编译llvm core  , clang , lld
 
 > ```bash
-> mkdir -p ~/.loongarch/llvm
+> $ mkdir -p ~/.loongarch/llvm
 > 
-> mkdir -p ~/.loongarch/llvm/build/llvm
-> mkdir -p ~/.loongarch/llvm/install/llvm
+> $ mkdir -p ~/.loongarch/llvm/build/llvm
+> $ mkdir -p ~/.loongarch/llvm/install/llvm
 > 
-> mkdir -p ~/.loongarch/llvm/build/clang
-> mkdir -p ~/.loongarch/llvm/install/clang
+> $ mkdir -p ~/.loongarch/llvm/build/clang
+> $ mkdir -p ~/.loongarch/llvm/install/clang
 > 
-> mkdir -p ~/.loongarch/llvm/build/lld
-> mkdir -p ~/.loongarch/llvm/install/lld
+> $ mkdir -p ~/.loongarch/llvm/build/lld
+> $ mkdir -p ~/.loongarch/llvm/install/lld
 > 
-> cd ~/.loongarch/llvm
+> $ cd ~/.loongarch/llvm
 > 
-> git clone --depth 1 https://github.com/llvm/llvm-project.git
+> $ git clone --depth 1 https://github.com/llvm/llvm-project.git
 > 
 > #build llvm
-> cmake -G Ninja -S ~/.loongarch/llvm/llvm-project/llvm -B ~/.loongarch/llvm/build/llvm -DLLVM_INSTALL_UTILS=ON -DCMAKE_INSTALL_PREFIX=~/.loongarch/llvm/install/llvm -DCMAKE_BUILD_TYPE=Release
-> ninja -C ~/.loongarch/llvm/build/llvm install
+> $ cmake -G Ninja -S ~/.loongarch/llvm/llvm-project/llvm -B ~/.loongarch/llvm/build/llvm -DLLVM_INSTALL_UTILS=ON -DCMAKE_INSTALL_PREFIX=~/.loongarch/llvm/install/llvm -DCMAKE_BUILD_TYPE=Release
+> $ ninja -C ~/.loongarch/llvm/build/llvm install
 > 
 > #build clang
-> cmake -G Ninja -S ~/.loongarch/llvm/llvm-project/clang -B ~/.loongarch/llvm/build/clang -DLLVM_EXTERNAL_LIT=~/.loongarch/llvm/build/llvm/utils/lit -DLLVM_ROOT=~/.loongarch/llvm/install/llvm -DCMAKE_INSTALL_PREFIX=~/.loongarch/llvm/install/clang -DCMAKE_BUILD_TYPE=Release
-> ninja -C ~/.llvm_dev/build/clang install
+> $ cmake -G Ninja -S ~/.loongarch/llvm/llvm-project/clang -B ~/.loongarch/llvm/build/clang -DLLVM_EXTERNAL_LIT=~/.loongarch/llvm/build/llvm/utils/lit -DLLVM_ROOT=~/.loongarch/llvm/install/llvm -DCMAKE_INSTALL_PREFIX=~/.loongarch/llvm/install/clang -DCMAKE_BUILD_TYPE=Release
+> $ ninja -C ~/.llvm_dev/build/clang install
 > 
 > #build lld
-> cmake -G Ninja -S ~/.loongarch/llvm/llvm-project/lld -B ~/.loongarch/llvm/build/lld -DLLVM_EXTERNAL_LIT=~/.loongarch/llvm/build/llvm/utils/lit -DLLVM_ROOT=~/.loongarch/llvm/install/llvm -DCMAKE_INSTALL_PREFIX=~/.loongarch/llvm/install/lld -DCMAKE_BUILD_TYPE=Release
-> ninja -C ~/.loongarch/llvm/build/lld install
+> $ cmake -G Ninja -S ~/.loongarch/llvm/llvm-project/lld -B ~/.loongarch/llvm/build/lld -DLLVM_EXTERNAL_LIT=~/.loongarch/llvm/build/llvm/utils/lit -DLLVM_ROOT=~/.loongarch/llvm/install/llvm -DCMAKE_INSTALL_PREFIX=~/.loongarch/llvm/install/lld -DCMAKE_BUILD_TYPE=Release
+> $ ninja -C ~/.loongarch/llvm/build/lld install
 >
->  cd ~/.loongarch && ln -s llvm/install llvm-18git
+> $ cd ~/.loongarch && ln -s llvm/install llvm-18git
 > 
 > ```
 
 ### 1.下载qemu-loonarch64 和 sysroot
 ```bash
-mkdir -p ~/.loongarch && cd ~/.loongarch
-wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/qemu-loongarch64 && chmod +x qemu-loongarch64
-wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/clfs-loongarch64-system-8.1-sysroot.squashfs && unsquashfs -user-xattrs clfs-system-8.1-sysroot.loongarch64.squashfs 
+$ mkdir -p ~/.loongarch && cd ~/.loongarch
+$ wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/qemu-loongarch64 && chmod +x qemu-loongarch64
+$ wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/clfs-loongarch64-system-8.1-sysroot.squashfs && unsquashfs -user-xattrs clfs-system-8.1-sysroot.loongarch64.squashfs 
 ```
 #多架构的小sysroot
 #https://github.com/crosstool-ng/crosstool-ng
+or
+#https://github.com/sunfishcode/eyra/
 
 ### 2. rust 1.72 添加 target loongarch64-unknown-linux-gnu
 
 ```bash
-rustup self update
-rustup update stable
-rustup target add loongarch64-unknown-linux-gnu
+$ rustup self update
+$ rustup update stable
+$ rustup target add loongarch64-unknown-linux-gnu
 ```
 
 ### 3. 修改.bashrc
@@ -183,7 +185,8 @@ rustup target add loongarch64-unknown-linux-gnu
 loongarch.cargo-sysroot(){
 	export LOONGARCH_HOME=~/.loongarch
 	export PATH=$LOONGARCH_HOME/llvm-18git/clang/bin:$LOONGARCH_HOME/llvm-18git/lld/bin:$LOONGARCH_HOME/llvm-18git/llvm/bin:$LOONGARCH_HOME:$PATH
-	
+	#debug_rustflags="-C opt-level=0 -C strip=none -C split-debuginfo=packed -C symbol-mangling-version=v0 -C debuginfo=2 -C debug-assertions=true"
+
 	CC_loongarch64_unknown_linux_gnu="$LOONGARCH_HOME/llvm-18git/clang/bin/clang-18" \
 	CFLAGS_loongarch64_unknown_linux_gnu="--sysroot=$LOONGARCH_HOME/squashfs-root" \
 	AR_loongarch64_unknown_linux_gnu="$LOONGARCH_HOME/llvm-18git/llvm/bin/llvm-ar" \
@@ -211,9 +214,10 @@ loongarch.cargo-optimized-sysroot(){
 	#profdata文件生成: 参考https://doc.rust-lang.org/rustc/profile-guided-optimization.html
 	#profdata=
 	#profile_guided_optimizion="-C llvm-args=-pgo-warn-missing-function -C profile-use=$profdata"
+
 	
-	#提示panic=abort出错时注释该行
-	panic="-C panic=abort"
+	#在panic时,不需要释放资源和处理错误,可以启用,提示panic=abort出错时注释该行
+	#panic="-C panic=abort"
 	optimized_level="-C opt-level=3"
 	#optimizied_linker_plugin_lto="-C linker-plugin-lto -C linker=clang"
 	optimizied_lto="-C lto=fat -C embed-bitcode=yes $optimizied_linker_plugin_lto"
@@ -223,7 +227,9 @@ loongarch.cargo-optimized-sysroot(){
 	
 	optimized_linking_times="-C link-arg=-fuse-ld=lld -C link-arg=--target=loongarch64-unknown-linux-gnu -C link-arg=--sysroot=$LOONGARCH_SYSROOT"
 	
-	#参考Target feature database for the Rust compiler: https://github.com/calebzulawski/target-features/blob/master/target-features/target-cpus.txt
+	#参考rustc --print target-features --target loongarch64-unknown-linux-gnu
+	#rustc --print target-cpus --target loongarch64-unknown-linux-gnu
+	#rustc --print relocation-models --target loongarch64-unknown-linux-gnu 
 	target_feature="-C target-feature=+crt-static"	
 	
 	rustflags="$optimized_linking_times $optimized_speed $optimized_size $target_feature $profile_guided_optimizion"
@@ -243,36 +249,36 @@ loongarch.cargo-optimized-sysroot(){
 
 ### 4.测试
 ``` bash
-source ~/.bashrc				
-cargo new hello && cd hello
-loongarch.cargo-sysroot run 
+$ source ~/.bashrc				
+$ cargo new hello && cd hello
+$ loongarch.cargo-sysroot run 
 ```
 
 ``` bash
-source ~/.bashrc				
-git clone --depth=1 https://github.com/extrawurst/gitui
-cd gitui
-cargo update
-loongarch.cargo-sysroot build
+$ source ~/.bashrc				
+$ git clone --depth=1 https://github.com/extrawurst/gitui
+$ cd gitui
+$ cargo update
+$ loongarch.cargo-sysroot build
 
-file target/loongarch64-unknown-linux-gnu/debug/gitui
+$ file target/loongarch64-unknown-linux-gnu/debug/gitui
 target/loongarch64-unknown-linux-gnu/debug/gitui: ELF 64-bit LSB executable, LoongArch, version 1 (SYSV), statically linked, for GNU/Linux 5.19.0, with debug_info, not stripped
 ```
 
 ```bash
-source ~/.bashrc
-git clone --depth=1 https://github.com/uutils/coreutils
-cd coreutils
-cargo update
-loongarch.cargo-optimized-sysroot build --release --features unix
+$ source ~/.bashrc
+$ git clone --depth=1 https://github.com/uutils/coreutils
+$ cd coreutils
+$ cargo update
+$ loongarch.cargo-optimized-sysroot build --release --features unix
 
-file target/loongarch64-unknown-linux-gnu/release/coreutils
+$ file target/loongarch64-unknown-linux-gnu/release/coreutils
 target/loongarch64-unknown-linux-gnu/release/coreutils: ELF 64-bit LSB executable, LoongArch, version 1 (SYSV), statically linked, for GNU/Linux 5.19.0, stripped
 
-du -h target/loongarch64-unknown-linux-gnu/release/coreutils
+$ du -h target/loongarch64-unknown-linux-gnu/release/coreutils
 13M	target/loongarch64-unknown-linux-gnu/release/coreutils
 
-qemu-loongarch64 target/loongarch64-unknown-linux-gnu/release/coreutils -h
+$ qemu-loongarch64 target/loongarch64-unknown-linux-gnu/release/coreutils -h
 coreutils 0.0.21 (multi-call binary)
 
 Usage: coreutils [function [arguments...]]
@@ -296,29 +302,29 @@ Currently defined functions:
 # chroot into  clfs-loongarch64-system-8.1-sysroot.squashfs
 ### 0.下载qemu-loonarch64 和 sysroot
 ```bash
-mkdir -p ~/.loongarch && cd ~/.loongarch
-wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/qemu-loongarch64 && chmod +x qemu-loongarch64
-wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/clfs-loongarch64-system-8.1-sysroot.squashfs && unsquashfs -user-xattrs clfs-system-8.1-sysroot.loongarch64.squashfs 
+$ mkdir -p ~/.loongarch && cd ~/.loongarch
+$ wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/qemu-loongarch64 && chmod +x qemu-loongarch64
+$ wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/clfs-loongarch64-system-8.1-sysroot.squashfs && unsquashfs -user-xattrs clfs-system-8.1-sysroot.loongarch64.squashfs 
 ```
 ### 1.chroot 环境准备
 ```bash
 #存在register status
-ls /proc/sys/fs/binfmt_misc
+$ ls /proc/sys/fs/binfmt_misc
 register status
 
 #status 为enabled
-cat /proc/sys/fs/binfmt_misc/status
+$ cat /proc/sys/fs/binfmt_misc/status
 enabled
 
 #是否存在qemu-loongarch64规则,不存在则使用check_binfmt_misc_for_qemu_loongarch64生成创建命令并执行
-ls /proc/sys/fs/binfmt_misc
+$ ls /proc/sys/fs/binfmt_misc
 register status qemu-loongarch64
 
 #1为启用,0为禁用,-1为删除qemu-loongarch64规则
 #sudo bash -c 'echo -1 > /proc/sys/fs/binfmt_misc/qemu-loongarch64'
 
 #复制qemu-loongarch64到sysroot,确保qemu-loongarch64在PATH=~/.loongarch:$PATH
-cp  `which qemu-loongarch64` ~/.loongarch/squashfs-root`which qemu-loongarch64`
+$ cp  `which qemu-loongarch64` ~/.loongarch/squashfs-root`which qemu-loongarch64`
 ```
 ```bash
 check_binfmt_misc_for_qemu_loongarch64(){
@@ -343,13 +349,13 @@ check_binfmt_misc_for_qemu_loongarch64(){
 ```
 ### 2. chroot 
 ```bash
-sudo chroot ~/.loongarch/squashfs-root
-mount -t proc proc /proc
-mount -t sysfs sys /sys
-mount -t devtmpfs dev /dev
-mount -t devpts devpts /dev/pts
-useradd -m larch
-su larch
-cd ~ && uname -m
+$ sudo chroot ~/.loongarch/squashfs-root
+$ mount -t proc proc /proc
+$ mount -t sysfs sys /sys
+$ mount -t devtmpfs dev /dev
+$ mount -t devpts devpts /dev/pts
+$ useradd -m larch
+$ su larch
+$ cd ~ && uname -m
 loongarch64
 ```
