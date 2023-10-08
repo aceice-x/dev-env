@@ -132,7 +132,14 @@ strace -> lurk
 ### 测试工具
 
 > - [GitHub - sharkdp/hyperfine: A command-line benchmarking tool 命令行基准测试工具](https://github.com/sharkdp/hyperfine)
-
+> - [GitHub - nvzqz/divan: Fast and simple benchmarking for Rust projects ](https://github.com/nvzqz/divan)
+> - [Github - bheisler/criterion.rs: Statistics-driven benchmarking library for Rust ](https://github.com/bheisler/criterion.rs)
+> - [Github - flamegraph-rs/flamegraph: Easy flamegraphs for Rust projects and everything else, without Perl or pipes <3 ](https://github.com/flamegraph-rs/flamegraph)
+> - [Github - nnethercote/dhat-rs: Heap profiling and ad hoc profiling for Rust programs. ](https://github.com/nnethercote/dhat-rs/)
+> - [Github - jfrimmel/cargo-valgrind: A cargo subcommand, that runs valgrind and displays its output in a helpful manner. ](https://github.com/jfrimmel/cargo-valgrind)
+> - [Github - EmbarkStudios/puffin: 🐦 Friendly little instrumentation profiler for Rust 🦀 ](https://github.com/EmbarkStudios/puffin)
+> - [Github - aclysma/profiling: Provides a very thin abstraction over instrumented profiling crates like puffin, optick, tracy, and superluminal-perf.](https://github.com/aclysma/profiling)
+> 
 ### 便捷小工具
 
 > - [GitHub - sorairolake/qrtool: An utility for encoding or decoding QR code](https://github.com/sorairolake/qrtool)
