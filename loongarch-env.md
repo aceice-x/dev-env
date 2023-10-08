@@ -222,7 +222,8 @@ loongarch.cargo-optimized-sysroot(){
 	#optimizied_linker_plugin_lto="-C linker-plugin-lto -C linker=clang"
 	optimizied_lto="-C lto=fat -C embed-bitcode=yes $optimizied_linker_plugin_lto"
 	optimized_speed="-C codegen-units=1 $panic $optimizied_lto $optimized_level"
-	
+
+	#参考https://github.com/johnthagen/min-sized-rust
 	optimized_size="-C strip=symbols"
 	
 	optimized_linking_times="-C link-arg=-fuse-ld=lld -C link-arg=--target=loongarch64-unknown-linux-gnu -C link-arg=--sysroot=$LOONGARCH_SYSROOT"
