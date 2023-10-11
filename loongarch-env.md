@@ -216,22 +216,29 @@ loongarch.cargo-optimized-sysroot(){
 	#profile_guided_optimizion="-C llvm-args=-pgo-warn-missing-function -C profile-use=$profdata"
 
 	#参考https://doc.rust-lang.org/cargo/reference/profiles.html#panic
-	#不使用[catch_unwind](https://doc.rust-lang.org/std/panic/fn.catch_unwind.html),可以启用,提示panic=abort出错时注释该行
-	#panic="-C panic=abort"
+	#在panic时,不需要unwind,如不使用[catch_unwind](https://doc.rust-lang.org/std/panic/fn.catch_unwind.html),可以启用,提示panic=abort出错时注释该行
+	panic="-C panic=abort"
+	#参考https://doc.rust-lang.org/cargo/reference/profiles.html#opt-level
 	optimized_level="-C opt-level=3"
+	#参考https://doc.rust-lang.org/rustc/linker-plugin-lto.html
 	#optimizied_linker_plugin_lto="-C linker-plugin-lto -C linker=clang"
+	#参考https://doc.rust-lang.org/cargo/reference/profiles.html#lto
 	optimizied_lto="-C lto=fat -C embed-bitcode=yes $optimizied_linker_plugin_lto"
+	#参考https://doc.rust-lang.org/rustc/codegen-options/index.html#codegen-units
 	optimized_speed="-C codegen-units=1 $panic $optimizied_lto $optimized_level"
 
-	#参考https://github.com/johnthagen/min-sized-rust
+	#参考https://doc.rust-lang.org/rustc/codegen-options/index.html#strip
+	#https://github.com/johnthagen/min-sized-rust
 	optimized_size="-C strip=symbols"
 	
 	optimized_linking_times="-C link-arg=-fuse-ld=lld -C link-arg=--target=loongarch64-unknown-linux-gnu -C link-arg=--sysroot=$LOONGARCH_SYSROOT"
 	
-	#参考rustc --print target-features --target loongarch64-unknown-linux-gnu
+	#参考https://doc.rust-lang.org/rustc/codegen-options/index.html#target-feature
+	#https://doc.rust-lang.org/rustc/codegen-options/index.html#relocation-model
+	#rustc --print target-features --target loongarch64-unknown-linux-gnu
 	#rustc --print target-cpus --target loongarch64-unknown-linux-gnu
 	#rustc --print relocation-models --target loongarch64-unknown-linux-gnu 
-	target_feature="-C target-feature=+crt-static"	
+	target_feature="-C target-feature=+crt-static"
 	
 	rustflags="$optimized_linking_times $optimized_speed $optimized_size $target_feature $profile_guided_optimizion"
 	
