@@ -215,8 +215,8 @@ loongarch.cargo-optimized-sysroot(){
 	#profdata=
 	#profile_guided_optimizion="-C llvm-args=-pgo-warn-missing-function -C profile-use=$profdata"
 
-	
-	#在panic时,不需要释放资源和处理错误,可以启用,提示panic=abort出错时注释该行
+	#参考https://doc.rust-lang.org/cargo/reference/profiles.html#panic
+	#不使用[catch_unwind](https://doc.rust-lang.org/std/panic/fn.catch_unwind.html),可以启用,提示panic=abort出错时注释该行
 	#panic="-C panic=abort"
 	optimized_level="-C opt-level=3"
 	#optimizied_linker_plugin_lto="-C linker-plugin-lto -C linker=clang"
