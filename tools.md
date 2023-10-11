@@ -75,7 +75,7 @@ strace -> lurk
 > 
 > - [GitHub - lapce/lapce: Lightning-fast and Powerful Code Editor written in Rust](https://github.com/lapce/lapce)
 > 
-> - vscode
+> - [Github - microsoft/vscode: Visual Studio Code ](https://github.com/microsoft/vscode)
 > 
 > - [neovim](https://github.com/neovim/neovim) and [coc.nvim](https://github.com/neoclide/coc.nvim)
 
@@ -198,8 +198,8 @@ strace -> lurk
 > - [GitHub - troyeguo/koodo-reader: A modern ebook manager and reader with sync and backup capacities for Windows, macOS, Linux and Web](https://github.com/troyeguo/koodo-reader)
 > - [GitHub - rektdeckard/moccasin: A TUI feed reader for RSS, Atom, and (aspirationally) Podcasts](https://github.com/rektdeckard/moccasin)
 > - [GitHub - zangloo/tbr: Terminal and gui ebook reader](https://github.com/zangloo/tbr)
-> - kiwix
-> - zeal
+> - [GitHub - kiwix/kiwix-desktop: Kiwix for Windows and GNU/Linux desktops ](https://github.com/kiwix/kiwix-desktop)
+> - [GitHub - zealdocs/zeal: Offline documentation browser inspired by Dash](https://github.com/zealdocs/zeal)
 
 ### 搜索工具
 
