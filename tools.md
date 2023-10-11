@@ -139,7 +139,32 @@ strace -> lurk
 > - [Github - jfrimmel/cargo-valgrind: A cargo subcommand, that runs valgrind and displays its output in a helpful manner. ](https://github.com/jfrimmel/cargo-valgrind)
 > - [Github - EmbarkStudios/puffin: 🐦 Friendly little instrumentation profiler for Rust 🦀 ](https://github.com/EmbarkStudios/puffin)
 > - [Github - aclysma/profiling: Provides a very thin abstraction over instrumented profiling crates like puffin, optick, tracy, and superluminal-perf.](https://github.com/aclysma/profiling)
-> 
+> - [ Github - EmbarkStudios/cargo-deny : ❌ Cargo plugin for linting your dependencies 🦀 ](https://github.com/EmbarkStudios/cargo-deny)
+> - [ Github - rust-secure-code/cargo-auditable : Make production Rust binaries auditable ](https://github.com/rust-secure-code/cargo-auditable)
+> - [ Github - taiki-e/cargo-llvm-cov : Cargo subcommand to easily use LLVM source-based code coverage (-C instrument-coverage). ](https://github.com/taiki-e/cargo-llvm-cov)
+> - [ Github - Protryon/alloc-track : Track memory allocations by backtrace or originating thread](https://github.com/Protryon/alloc-track)
+> - [ Github - koute/bytehound : A memory profiler for Linux. ](https://github.com/koute/bytehound)
+> - [ Github - cackle-rs/cackle : A code ACL checker for Rust ](https://github.com/cackle-rs/cackle)
+> - [ Github - model-checking/kani : Kani is particularly useful for verifying unsafe code blocks in Rust, where the "unsafe superpowers" are unchecked by the compiler.](https://github.com/model-checking/kani)
+> - [ Github - rust-secure-code/cargo-geiger : Detects usage of unsafe Rust in a Rust crate and its dependencies.](https://github.com/rust-secure-code/cargo-geiger)
+> - [ Github - rust-minidump/rust-minidump : Type definitions, parsing, and analysis for the minidump file format.](https://github.com/rust-minidump/rust-minidump)
+> - [ Github - subtalegames/cortex : 💥 Crash handling for Rust applications ](https://github.com/subtalegames/cortex)
+
+### linux 性能工具
+> - [ Github - iovisor/bpftrace : High-level tracing language for Linux eBPF](https://github.com/iovisor/bpftrace)
+> - [ Github - iovisor/bcc: BCC - Tools for BPF-based Linux IO analysis, networking, monitoring, and more ](https://github.com/iovisor/bcc)
+> - [ Github - brendangregg/perf-tools : Performance analysis tools based on Linux perf_events (aka perf) and ftrace ](https://github.com/brendangregg/perf-tools)
+> - [ Github - wkz/ply : Light-weight Dynamic Tracer for Linux ](https://github.com/wkz/ply)
+
+### 安全工具
+> - [ Github - awesome-hacker-search-engines : A curated list of awesome search engines useful during Penetration testing, Vulnerability assessments, Red/Blue Team operations, Bug Bounty and more ](https://github.com/edoardottt/awesome-hacker-search-engines)
+> - [ Github - We5ter/Scanners-Box : A powerful and open-source toolkit for hackers and security automation - 安全行业从业者自研开源扫描器合辑 ](https://github.com/We5ter/Scanners-Box)
+> - [ Github - aquasecurity/trivy: Find vulnerabilities, misconfigurations, secrets, SBOM in containers, Kubernetes, code repositories, clouds and more ](https://github.com/aquasecurity/trivy)
+> - [ Github - gcmurphy/osv : Rust implementation of ossf osv specification](https://github.com/gcmurphy/osv)
+> - [ Github - google/osv-scanner : Vulnerability scanner written in Go which uses the data provided by https://osv.dev ](https://github.com/google/osv-scanner)
+> - [ Github - rustsec/rustsec : RustSec API & Tooling ](https://github.com/rustsec/rustsec)
+> - [ Github - rust-secure-code/projects: Contains a list of security related Rust projects. ](https://github.com/rust-secure-code/projects)
+
 ### 便捷小工具
 
 > - [GitHub - sorairolake/qrtool: An utility for encoding or decoding QR code](https://github.com/sorairolake/qrtool)
