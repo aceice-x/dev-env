@@ -213,3 +213,8 @@ strace -> lurk
 
 > - [GitHub - kdheepak/taskwarrior-tui: `taskwarrior-tui`: A terminal user interface for taskwarrior](https://github.ink/kdheepak/taskwarrior-tui)
 > - [GitHub - aryakaul/rusty-krab-manager: 🕰️ - time management tui in rust](https://github.com/aryakaul/rusty-krab-manager)
+
+### [over 500 awesome list ](https://www.trackawesomelist.com)
+
+> - [ Github - rust-unofficial/awesome-rust : A curated list of Rust code and resources.](https://github.com/rust-unofficial/awesome-rust)
+> - [GitHub - catdevnull/awesome-zig:A list of awesome projects related to Zig ](https://github.com/catdevnull/awesome-zig)

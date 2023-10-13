@@ -1,3 +1,19 @@
+
+| 项目               | GNU                  | LLVM                | 
+| ------------------ | ------------------- | -------------------- | 
+| C 编译器           | `gcc`               | `clang`              | 
+| C++编译器          | `g++`               | `clang++`            |
+| binutils           | GNU binutils        | LLVM Core	 	|
+| 链接器(linker)     | `ld`, `ld.bfd`, `ld.gold` | `lld`        |
+| 运行时(intrinsics) | `libgcc`            | `compiler-rt`        |
+| 原子操作           | `libatomic`         | `compiler-rt`        |
+| 栈展开(unwind)     | `libgcc_s`          | `libunwind`     	|
+| C 语言库           | `glibc`             | `libc`  		|
+| C++ 标准库         | `libstdc++`         | `libc++`             |
+| C++ ABI            | `Libsupcxx`         | `libc++abi`          |
+| 汇编器             | `as`                | `llvm-as`          |
+| 调试器		    |  `gdb`		   | `lldb`		|
+
 # ubuntu_x86_64下 交叉编译 loongarch64
 
 ### 0.下载并解压文件
@@ -168,9 +184,12 @@ $ wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/q
 $ wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/clfs-loongarch64-system-8.1-sysroot.squashfs && unsquashfs -user-xattrs clfs-system-8.1-sysroot.loongarch64.squashfs 
 ```
 #多架构的小sysroot
-#https://github.com/crosstool-ng/crosstool-ng
-or
-#https://github.com/sunfishcode/eyra/
+#https://github.com/crosstool-ng/crosstool-ng  
+or  
+#https://github.com/sunfishcode/eyra  
+#https://github.com/sunfishcode/origin-studio  
+#编译loongarch64(compiler-rt,libc,libunwind,libc++,libc++abi)   
+#zig 
 
 ### 2. rust 1.72 添加 target loongarch64-unknown-linux-gnu
 
