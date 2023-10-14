@@ -9,8 +9,8 @@
 | 原子操作           | `libatomic`         | `compiler-rt`        |
 | 栈展开(unwind)     | `libgcc_s`          | `libunwind`     	|
 | C 语言库           | `glibc`             | `libc`  		|
-| C++ 标准库         | `libstdc++`         | `libc++`             |
-| C++ ABI            | `Libsupcxx`         | `libc++abi`          |
+| C++ 标准库         | `libstdc++`         | `libcxx`             |
+| C++ ABI            | `Libsupcxx`         | `libcxxabi`          |
 | 汇编器             | `as`                | `llvm-as`          |
 | 调试器		    |  `gdb`		   | `lldb`		|
 
@@ -188,7 +188,7 @@ $ wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/c
 or  
 #https://github.com/sunfishcode/eyra  
 #https://github.com/sunfishcode/origin-studio  
-#编译loongarch64(compiler-rt,libc,libunwind,libc++,libc++abi)   
+#编译loongarch64(compiler-rt,libc,libunwind,libcxx,libcxxabi)   
 #zig 
 
 ### 2. rust 1.72 添加 target loongarch64-unknown-linux-gnu
