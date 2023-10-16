@@ -347,11 +347,15 @@ enabled
 $ ls /proc/sys/fs/binfmt_misc
 register status qemu-loongarch64
 
+
 #1为启用,0为禁用,-1为删除qemu-loongarch64规则
 #sudo bash -c 'echo -1 > /proc/sys/fs/binfmt_misc/qemu-loongarch64'
 
 #复制qemu-loongarch64到sysroot,确保qemu-loongarch64在PATH=~/.loongarch:$PATH
-$ cp  `which qemu-loongarch64` ~/.loongarch/squashfs-root`which qemu-loongarch64`
+$ cp --parents `which qemu-loongarch64` ~/.loongarch/squashfs-root
+
+#确认interpreter路径与~/.loongarch/squashfs-root下的一致
+$ cat /proc/sys/fs/binfmt_misc/qemu-loongarch64
 ```
 ```bash
 check_binfmt_misc_for_qemu_loongarch64(){
@@ -385,4 +389,8 @@ $ useradd -m larch
 $ su larch
 $ cd ~ && uname -m
 loongarch64
+$ exit
+$ exit
+$ uname -m
+x86_64
 ```
