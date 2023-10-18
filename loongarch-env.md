@@ -475,13 +475,14 @@ $ source  $WORKSPACE/edk2/edksetup.sh
 $ make -C edk2/BaseTools
 $ build --buildtarget=DEBUG --tagname=GCC5 --arch=LOONGARCH64  --platform=Platform/Loongson/LoongArchQemuPkg/Loongson.dsc
 $ #文件在~/.loongarch/emulator-loongarch64/Build/LoongArchQemu/DEBUG_GCC5/FV/QEMU_EFI.fd
+$ #https://github.com/loongson/Firmware/blob/main/LoongArchVirtMachine/README_CN.md
 
 ```
 
 ```
 $ mkdir -p ~/.loongarch && cd ~/.loongarch
-$ wget -c https://github.com/sunhaiyong1978/CLFS-for-LoongArch/releases/download/8.1/clfs-system-8.1-boot.loongarch64.squashfs && unsquashfs -user-xattrs CLFS-for-LoongArch/releases/download/8.1/clfs-system-8.1-boot.loongarch64.squashfs
-$ #https://github.com/loongson/Firmware/blob/main/LoongArchVirtMachine/README_CN.md
+$ wget -c https://github.com/sunhaiyong1978/CLFS-for-LoongArch/releases/download/8.1/clfs-system-8.1-boot.loongarch64.squashfs && unsquashfs -user-xattrs clfs-system-8.1-boot.loongarch64.squashfs
+$ wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/clfs-loongarch64-system-8.1-sysroot.squashfs && unsquashfs -user-xattrs clfs-system-8.1-sysroot.loongarch64.squashfs 
 ```
 
 ---
