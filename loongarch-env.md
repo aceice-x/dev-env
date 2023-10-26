@@ -13,8 +13,10 @@
 | 汇编器             | `as`                      | `llvm-as`     |
 | 调试器             | `gdb`                     | `lldb`        |
 
+#https://github.com/loongson/la-asm-manual  
+#https://github.com/loongson/LoongArch-Documentation  
 #rustc的linker-plugin-lto功能需要clang和依赖库需要启用lto重新编译  
-#llvm clang lld 原生支持多架构,交叉编译简单  
+#llvm clang lld(mold) 原生支持多架构,交叉编译简单  
 
 # ubuntu_x86_64下 交叉编译 loongarch64
 
@@ -191,7 +193,6 @@ $ wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/c
 
 #多架构的小sysroot
 #https://github.com/crosstool-ng/crosstool-ng  
-or  
 #https://github.com/sunfishcode/eyra  
 #https://github.com/sunfishcode/origin-studio  
 #编译loongarch64(compiler-rt,libc,libunwind,libcxx,libcxxabi)   
@@ -344,7 +345,7 @@ Currently defined functions:
 
 ---
 
-# chroot(x86_64) into  clfs-loongarch64-system-8.1-sysroot.squashfs
+# x86_64(qemu-loongarch64 chroot) 和 clfs-loongarch64-system-8.1-sysroot.squashfs
 
 ### 0.下载qemu-loonarch64 和 sysroot
 
@@ -410,6 +411,7 @@ $ mount -t proc proc /proc
 $ mount -t sysfs sys /sys
 $ mount -t devtmpfs dev /dev
 $ mount -t devpts devpts /dev/pts
+$ mount -t tmpfs shmfs /dev/shm
 $ useradd -m larch
 $ su larch
 $ cd ~ && uname -m
@@ -423,8 +425,12 @@ x86_64
 ---
 
 # emulator-loongarch64
-
-### 
+#virt-manager
+#tcg
+#kvm
+#qemu
+#StratoVirt
+#crosvm
 
  
 ```bash
@@ -437,7 +443,7 @@ $ mkdir -p ~/.loongarch/emulator-loongarch64/qemu-system-build
 $ mkdir -p ~/.loongarch/emulator-loongarch64/qemu-system
 $ cd ~/.loongarch/emulator-loongarch64/qemu-system-build
 $ #按提示安装缺少的依赖库
-$ ../configure --target-list="loongarch64-softmmu loongarch64-linux-user" --enable-lto --prefix=`pwd`/../qemu-system
+$ ../qemu/configure --target-list="loongarch64-softmmu loongarch64-linux-user" --enable-lto --prefix=`pwd`/../qemu-system
 $ make -j16
 $ make install
 $ #文件在~/.loongarch/emulator-loongarch64/qemu-system/bin/qemu-system-loongarch64
@@ -449,6 +455,31 @@ virt                 Loongson-3A5000 LS7A1000 machine (default)
 $ ~/.loongarch/emulator-loongarch64/qemu-system/bin/qemu-system-loongarch64 -cpu ?
 la132-loongarch-cpu
 la464-loongarch-cpu
+
+$ ~/.loongarch/emulator-loongarch64/qemu-system/bin/qemu-system-loongarch64  -machine virt,help
+virt-machine options:
+  acpi=<OnOffAuto>       - Enable ACPI
+  append=<string>        - Linux kernel command line
+  boot=<BootConfiguration> - Boot configuration
+  confidential-guest-support=<link<confidential-guest-support>> - Set confidential guest scheme to support
+  dt-compatible=<string> - Overrides the "compatible" property of the dt root node
+  dtb=<string>           - Linux kernel device tree file
+  dump-guest-core=<bool> - Include guest memory in a core dump
+  dumpdtb=<string>       - Dump current dtb to a file and quit
+  firmware=<string>      - Firmware image
+  graphics=<bool>        - Set on/off to enable/disable graphics emulation
+  initrd=<string>        - Linux initial ramdisk file
+  kernel=<string>        - Linux kernel image file
+  mem-merge=<bool>       - Enable/disable memory merge support
+  memory-backend=<link<memory-backend>> - Set RAM backendValid value is ID of hostmem based backend
+  memory-encryption=<string> - Set memory encryption object to use
+  memory=<MemorySizeConfiguration> - Memory size configuration
+  phandle-start=<int>    - The first phandle ID we may generate dynamically
+  smp=<SMPConfiguration> - CPU topology
+  suppress-vmdesc=<bool> - Set on to disable self-describing migration
+  usb=<bool>             - Set on/off to enable/disable usb
+
+$ #https://github.com/yangxiaojuan-loongson/qemu-binary
 
 ```
 
@@ -477,9 +508,13 @@ $ build --buildtarget=DEBUG --tagname=GCC5 --arch=LOONGARCH64  --platform=Platfo
 $ #文件在~/.loongarch/emulator-loongarch64/Build/LoongArchQemu/DEBUG_GCC5/FV/QEMU_EFI.fd
 $ #https://github.com/loongson/Firmware/blob/main/LoongArchVirtMachine/README_CN.md
 
+
 ```
 
 ```
+#https://github.com/sunhaiyong1978/CLFS-for-LoongArch/blob/main/CLFS_For_LoongArch64.md
+#https://github.com/emojifreak/qemu-arm-image-builder
+#https://github.com/sunhaiyong1978/Yongbao
 $ mkdir -p ~/.loongarch && cd ~/.loongarch
 $ wget -c https://github.com/sunhaiyong1978/CLFS-for-LoongArch/releases/download/8.1/clfs-system-8.1-boot.loongarch64.squashfs && unsquashfs -user-xattrs clfs-system-8.1-boot.loongarch64.squashfs
 $ wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/clfs-loongarch64-system-8.1-sysroot.squashfs && unsquashfs -user-xattrs clfs-system-8.1-sysroot.loongarch64.squashfs 
