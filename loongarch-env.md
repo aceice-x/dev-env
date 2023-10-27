@@ -197,7 +197,8 @@ $ wget -c https://github.com/loongson/build-tools/releases/download/2023.08.08/c
 #https://github.com/sunfishcode/origin-studio  
 #编译loongarch64(compiler-rt,libc,libunwind,libcxx,libcxxabi)   
 #zig  
-#多架构clfs + 统一app安装包格式 + 跨系统和架构的(共享库管理工具+包管理工具+app商店) + 各系统默认打包格式(补充)
+#nixpkgs  
+#多架构clfs + 统一app安装包格式 + 跨系统和架构的(共享库管理工具+包管理工具+bug管理工具+app商店) + 各系统默认打包格式(补充)
 
 ### 2. rust 1.72 添加 target loongarch64-unknown-linux-gnu
 
@@ -414,7 +415,7 @@ $ mount -t devpts devpts /dev/pts
 $ mount -t tmpfs shmfs /dev/shm
 $ useradd -m larch
 $ su larch
-$ cd ~ && uname -m
+$ uname -m
 loongarch64
 $ exit
 $ exit
