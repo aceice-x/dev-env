@@ -35,7 +35,7 @@ strace -> lurk
 > 
 > - [GitHub - chmln/sd: Intuitive find & replace CLI (sed alternative)](https://github.com/chmln/sd)
 > 
-> - [GitHub - Canop/dysk: A linux utility to get information on filesystems, like df but better](https://github.ink/Canop/dysk)
+> - [GitHub - Canop/dysk: A linux utility to get information on filesystems, like df but better](https://github.com/Canop/dysk)
 > 
 > - [GitHub - JakWai01/lurk: A pretty (simple) alternative to strace](https://github.com/JakWai01/lurk)
 
@@ -125,7 +125,7 @@ strace -> lurk
 > 
 > - [GitHub - dalance/procs: A modern replacement for ps written in Rust](https://github.com/dalance/procs)
 > 
-> - [GitHub - SkuldNorniern/fluere: Fluere is a powerful and versatile tool designed for network monitoring and analysis. It is capable of capturing network packets in pcap format and converting them into NetFlow data, providing a comprehensive view of network traffic. It also Provides Terminal User Interface.](https://github.ink/SkuldNorniern/fluere)
+> - [GitHub - SkuldNorniern/fluere: Fluere is a powerful and versatile tool designed for network monitoring and analysis. It is capable of capturing network packets in pcap format and converting them into NetFlow data, providing a comprehensive view of network traffic. It also Provides Terminal User Interface.](https://github.com/SkuldNorniern/fluere)
 > 
 > - [GitHub - GuillaumeGomez/process-viewer: A process viewer GUI in rust](https://github.com/guillaumegomez/process-viewer)
 
@@ -189,7 +189,7 @@ strace -> lurk
 > 
 > - [GitHub - rust-lang/mdBook: Create book from markdown files. Like Gitbook but implemented in Rust](https://github.com/rust-lang/mdbook)
 > 
-> - [GitHub - tommilligan/mdbook-admonish: A preprocessor for mdbook to add Material Design admonishments.](https://github.ink/tommilligan/mdbook-admonish)
+> - [GitHub - tommilligan/mdbook-admonish: A preprocessor for mdbook to add Material Design admonishments.](https://github.com/tommilligan/mdbook-admonish)
 > 
 > - [GitHub - lise-henry/crowbook: Converts books written in Markdown to HTML, LaTeX/PDF and EPUB](https://github.com/lise-henry/crowbook)
 
@@ -205,13 +205,13 @@ strace -> lurk
 
 > - [GitHub - samtay/so: A terminal interface for Stack Overflow](https://github.com/samtay/so)
 > 
-> - [GitHub - Builditluc/wiki-tui: A simple and easy to use Wikipedia Text User Interface](https://github.ink/Builditluc/wiki-tui)
+> - [GitHub - Builditluc/wiki-tui: A simple and easy to use Wikipedia Text User Interface](https://github.com/Builditluc/wiki-tui)
 > 
 > - [GitHub - Jackboxx/archwiki-rs: A CLI tool to read pages from the Archwiki](https://github.com/jackboxx/archwiki-rs)
 
 ### 时间任务管理
 
-> - [GitHub - kdheepak/taskwarrior-tui: `taskwarrior-tui`: A terminal user interface for taskwarrior](https://github.ink/kdheepak/taskwarrior-tui)
+> - [GitHub - kdheepak/taskwarrior-tui: `taskwarrior-tui`: A terminal user interface for taskwarrior](https://github.com/kdheepak/taskwarrior-tui)
 > - [GitHub - aryakaul/rusty-krab-manager: 🕰️ - time management tui in rust](https://github.com/aryakaul/rusty-krab-manager)
 
 ### [over 500 awesome list ](https://www.trackawesomelist.com)
